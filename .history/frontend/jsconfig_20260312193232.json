@@ -1,6 +1,0 @@
-{ "type": "commonjs"  
-  "compilerOptions": {
-    "baseUrl": "src"
-  },
-  "include": ["src"]
-}
