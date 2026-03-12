@@ -1,0 +1,206 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-sans antialiased;
+  }
+
+  /* Auth page – minimalist with background images */
+  .auth-page {
+    background: var(--bg);
+  }
+  :root .auth-page {
+    background-color: #F8FAFC;
+  }
+  [data-theme="dark"] .auth-page {
+    background-color: #0F172A;
+  }
+
+  /* Fix text overflow issues */
+  .auth-card {
+    @apply border rounded-2xl shadow-2xl border-gray-200 dark:border-gray-700;
+    overflow: visible;
+    min-width: 320px;
+  }
+
+  .auth-form-card {
+    @apply bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700;
+    overflow: visible;
+    word-wrap: break-word;
+  }
+
+  .auth-form-heading {
+    @apply text-gray-900 dark:text-white;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
+  .auth-form-subtext, .auth-form-hint {
+    @apply text-gray-600 dark:text-gray-400;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
+  .auth-form-hint-highlight {
+    @apply text-blue-600 dark:text-blue-400;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+  
+  .btn-primary {
+    @apply bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-gray-500;
+  }
+  
+  .btn-danger {
+    @apply bg-red-600 text-white hover:bg-red-700 focus:ring-red-500;
+  }
+  
+  .card {
+    @apply bg-white rounded-lg shadow-md p-6 border border-gray-200;
+  }
+  
+  .input {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+  }
+  
+  .priority-high {
+    @apply bg-priority-red text-white;
+  }
+  
+  .priority-medium {
+    @apply bg-priority-yellow text-black;
+  }
+  
+  .priority-low {
+    @apply bg-priority-green text-white;
+  }
+
+  /* Auth-specific styles */
+  .auth-card {
+    @apply border rounded-2xl shadow-2xl border-gray-200 dark:border-gray-700;
+  }
+
+  .auth-form-panel {
+    @apply border-l border-gray-200 dark:border-gray-700;
+  }
+
+  .auth-toggle {
+    @apply bg-white dark:bg-gray-800 rounded-lg p-1 border border-gray-200 dark:border-gray-700;
+  }
+
+  .auth-toggle-btn {
+    @apply text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white;
+  }
+
+  .auth-toggle-btn--active {
+    @apply bg-blue-600 text-white border border-blue-600 shadow-md;
+  }
+
+  .auth-label {
+    @apply text-blue-600 dark:text-blue-400;
+  }
+
+  .auth-title {
+    @apply text-gray-900 dark:text-white;
+  }
+
+  .auth-subtitle {
+    @apply text-gray-600 dark:text-gray-400;
+  }
+
+  .auth-form-card {
+    @apply bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700;
+  }
+
+  .auth-form-heading {
+    @apply text-gray-900 dark:text-white;
+  }
+
+  .auth-form-subtext, .auth-form-hint {
+    @apply text-gray-600 dark:text-gray-400;
+  }
+
+  .auth-form-hint-highlight {
+    @apply text-blue-600 dark:text-blue-400;
+  }
+
+  .auth-input {
+    @apply bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100;
+  }
+
+  .auth-input:focus, .auth-input.auth-input--focused {
+    @apply border-blue-500 ring-2 ring-blue-500 ring-opacity-10 dark:ring-opacity-15;
+  }
+
+  .auth-input-label {
+    @apply text-gray-500 dark:text-gray-400;
+  }
+
+  .auth-input-label--focused {
+    @apply text-blue-500 dark:text-blue-400;
+  }
+
+  .auth-submit-btn {
+    @apply bg-blue-600 text-white transition-all duration-300 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+  }
+
+  .auth-error-box {
+    @apply bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 rounded-lg p-4;
+  }
+
+  .auth-success-box {
+    @apply bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 rounded-lg p-4;
+  }
+
+  .auth-footer-link {
+    @apply text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors;
+  }
+
+  /* Landing page – section reveal and card motion */
+  .landing-reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    animation: landingReveal 0.6s ease-out forwards;
+  }
+  .landing-reveal-stagger-1 { animation-delay: 0.05s; }
+  .landing-reveal-stagger-2 { animation-delay: 0.1s; }
+  .landing-reveal-stagger-3 { animation-delay: 0.15s; }
+  .landing-reveal-stagger-4 { animation-delay: 0.2s; }
+  .landing-reveal-stagger-5 { animation-delay: 0.25s; }
+  .landing-reveal-stagger-6 { animation-delay: 0.3s; }
+  .landing-reveal-stagger-7 { animation-delay: 0.35s; }
+  .landing-reveal-stagger-8 { animation-delay: 0.4s; }
+  @keyframes landingReveal {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .landing-card {
+    @apply rounded-2xl border border-gray-100/80 bg-white shadow-lg transition-all duration-300 ease-out;
+  }
+  .landing-card:hover {
+    @apply shadow-xl border-gray-200 -translate-y-1;
+  }
+
+  /* FAQ section – dotted background */
+  .faq-dotted-bg {
+    background-color: #f1f5f9;
+    background-image: radial-gradient(rgba(100, 116, 139, 0.25) 1.25px, transparent 1.25px);
+    background-size: 22px 22px;
+  }
+}

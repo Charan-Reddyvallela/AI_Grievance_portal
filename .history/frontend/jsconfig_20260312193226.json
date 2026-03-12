@@ -1,0 +1,6 @@
+{ "type": "module",
+  "compilerOptions": {
+    "baseUrl": "src"
+  },
+  "include": ["src"]
+}
