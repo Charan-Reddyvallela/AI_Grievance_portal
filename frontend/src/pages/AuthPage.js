@@ -248,13 +248,14 @@ export default function AuthPage() {
             </MDBox>
           </MDBox>
 
-          {/* Sliding form container */}
+          {/* Sliding form container - compact for Sign in, taller for Sign up */}
           <MDBox
             sx={{
               position: 'relative',
               overflow: 'hidden',
               width: '100%',
-              minHeight: 320,
+              minHeight: isSignUp ? 520 : 340,
+              transition: 'min-height 0.4s ease',
             }}
           >
             {/* Sign In form */}
@@ -409,14 +410,14 @@ export default function AuthPage() {
                     }}
                   />
                 </MDBox>
-                <MDBox display="flex" alignItems="center" ml={-1} mb={2}>
+                <MDBox mb={2} sx={{ textAlign: 'left' }}>
                   <MDTypography variant="body2" sx={{ color: 'text.primary' }}>
                     I agree to the Terms and Privacy Policy
                   </MDTypography>
                 </MDBox>
-                <MDBox mt={4} mb={1}>
+                <MDBox mt={3} mb={1}>
                   <MDButton type="submit" variant="gradient" color="info" fullWidth disabled={isLoading}>
-                    {isLoading ? <LoadingSpinner size="small" /> : 'Create account'}
+                    {isLoading ? <LoadingSpinner size="small" /> : 'Sign up'}
                   </MDButton>
                 </MDBox>
                 <MDBox mt={3} mb={1} textAlign="center">
@@ -439,8 +440,8 @@ export default function AuthPage() {
             </MDBox>
           </MDBox>
 
-          {/* Portal contact info */}
-          <MDBox mt={2} pt={2} borderTop="1px solid" borderColor="divider" textAlign="center">
+          {/* Portal contact info - aligned with form content */}
+          <MDBox mt={2} pt={2} borderTop="1px solid" borderColor="divider" sx={{ textAlign: 'left' }}>
             <MDTypography variant="body2" display="block" sx={{ color: 'text.secondary', fontWeight: 500 }}>
               {PORTAL_CONTACT.email} · {PORTAL_CONTACT.phone}
             </MDTypography>

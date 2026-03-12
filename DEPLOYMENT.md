@@ -4,7 +4,25 @@ This guide deploys the **backend** to [Render](https://render.com) (free tier) a
 
 ---
 
-## 1. MongoDB Atlas (Database)
+## Step 0: Push your code to GitHub
+
+1. Create a new repository on [GitHub](https://github.com/new) (e.g. `AI_Grievance_portal`). Do **not** add a README or .gitignore (you already have them).
+2. In your project folder, run (use your GitHub username and repo name):
+
+```powershell
+cd c:\Users\Mroads\Desktop\AI_Grievance_portal
+git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+git branch -M main
+git add -A
+git commit -m "Deploy: CORS, Render, Vercel setup"
+git push -u origin main
+```
+
+If the repo already has a remote, just run: `git add -A`, `git commit -m "Deploy setup"`, `git push origin main`.
+
+---
+
+## Step 1: MongoDB Atlas (Database)
 
 1. Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) and create a free account.
 2. Create a **free cluster** (e.g. M0).
@@ -17,9 +35,9 @@ This guide deploys the **backend** to [Render](https://render.com) (free tier) a
 
 ---
 
-## 2. Backend on Render
+## Step 2: Backend on Render
 
-1. Push your code to **GitHub** (if not already).
+1. Your code should already be on **GitHub** (Step 0).
 2. Go to [Render](https://render.com) → Sign up / Log in → **New** → **Web Service**.
 3. Connect your **GitHub repo** and select the repository.
 4. Configure:
@@ -52,7 +70,7 @@ Or use MongoDB Compass connected to Atlas and run the seed script logic / add th
 
 ---
 
-## 3. Frontend on Vercel
+## Step 3: Frontend on Vercel
 
 1. Go to [Vercel](https://vercel.com) → Sign up / Log in (e.g. with GitHub).
 2. **Add New** → **Project** → Import your GitHub repo.
@@ -68,7 +86,7 @@ Or use MongoDB Compass connected to Atlas and run the seed script logic / add th
 
 ---
 
-## 4. Connect Backend to Frontend (CORS)
+## Step 4: Connect Backend to Frontend (CORS)
 
 1. In **Render** → your backend service → **Environment**.
 2. Set **CORS_ORIGIN** to your Vercel (and any custom) frontend URL, no trailing slash:
@@ -78,7 +96,7 @@ Or use MongoDB Compass connected to Atlas and run the seed script logic / add th
 
 ---
 
-## 5. Verify
+## Step 5: Verify
 
 - Open the Vercel frontend URL. You should see the app.
 - Register / Login and submit a test complaint.

@@ -3,6 +3,8 @@ import { useAuth } from '../context/AuthContext';
 import { User, Calendar, Award, Eye, EyeOff, AlertCircle } from 'lucide-react';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { formatDate } from '../utils/helpers';
+import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
+import DashboardNavbar from 'examples/Navbars/DashboardNavbar';
 
 const ProfilePage = () => {
   const { user, updateProfile, changePassword } = useAuth();
@@ -86,11 +88,13 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 text-left">
-      <div className="w-full max-w-full px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
+    <DashboardLayout>
+      <DashboardNavbar />
+      <div className="min-h-screen bg-gray-50 py-8 text-left">
+        <div className="w-full max-w-full px-4 sm:px-6 lg:px-8">
+          {/* Header */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-900">My Profile</h1>
           <p className="text-gray-600 mt-2">Manage your account settings and preferences</p>
         </div>
 
@@ -326,6 +330,7 @@ const ProfilePage = () => {
         </div>
       </div>
     </div>
+    </DashboardLayout>
   );
 };
 
