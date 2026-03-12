@@ -5,6 +5,18 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
+// Fail fast in production if required env is missing
+if (process.env.NODE_ENV === 'production') {
+  if (!process.env.JWT_SECRET || String(process.env.JWT_SECRET).length < 10) {
+    console.error('FATAL: Set JWT_SECRET in Render Environment (at least 10 characters).');
+    process.exit(1);
+  }
+  if (!process.env.MONGODB_URI) {
+    console.error('FATAL: Set MONGODB_URI in Render Environment.');
+    process.exit(1);
+  }
+}
+
 const authRoutes = require('./routes/auth');
 const complaintRoutes = require('./routes/complaints');
 const userRoutes = require('./routes/users');

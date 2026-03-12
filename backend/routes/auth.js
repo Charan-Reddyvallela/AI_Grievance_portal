@@ -8,9 +8,13 @@ const router = express.Router();
 
 // Generate JWT token
 const generateToken = (userId) => {
+  const secret = process.env.JWT_SECRET;
+  if (!secret || secret.length < 10) {
+    throw new Error('JWT_SECRET not configured');
+  }
   return jwt.sign(
     { userId },
-    process.env.JWT_SECRET,
+    secret,
     { expiresIn: process.env.JWT_EXPIRE || '7d' }
   );
 };
@@ -68,6 +72,9 @@ router.post('/register', [
     });
   } catch (error) {
     console.error('Registration error:', error);
+    if (error.message === 'JWT_SECRET not configured') {
+      return res.status(503).json({ error: 'Server misconfiguration. Please set JWT_SECRET on Render.' });
+    }
     res.status(500).json({ error: 'Registration failed' });
   }
 });
@@ -126,6 +133,9 @@ router.post('/login', [
     });
   } catch (error) {
     console.error('Login error:', error);
+    if (error.message === 'JWT_SECRET not configured') {
+      return res.status(503).json({ error: 'Server misconfiguration. Please set JWT_SECRET on Render.' });
+    }
     res.status(500).json({ error: 'Login failed' });
   }
 });
