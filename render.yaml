@@ -1,0 +1,24 @@
+# Render Blueprint - AI Grievance Portal Backend
+# Deploy: Connect this repo in Render → New → Blueprint → select repo (render.yaml at root).
+services:
+  - type: web
+    name: ai-grievance-portal-api
+    runtime: node
+    region: oregon
+    plan: free
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        generateValue: true
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGIN
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false

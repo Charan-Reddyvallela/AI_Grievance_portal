@@ -1,253 +1,280 @@
 # AI Grievance Portal
 
-A comprehensive AI-powered civic complaint management platform where citizens can submit complaints about public issues and government departments can manage and resolve them efficiently.
+A full-stack **AI-powered civic complaint management platform** where citizens submit complaints about public issues and government departments manage and resolve them efficiently.
+
+---
+
+## Table of Contents
+
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Project Structure](#project-structure)
+- [Prerequisites](#prerequisites)
+- [Installation & Setup](#installation--setup)
+- [Environment Variables](#environment-variables)
+- [Running the Application](#running-the-application)
+- [API Reference](#api-reference)
+- [Database](#database)
+- [Deployment](#deployment)
+- [Deploy to production](#deploy-to-production)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
 
 ## Features
 
-### 🏛️ For Citizens
-- **Easy Complaint Submission**: Submit complaints with photos, location, and detailed descriptions
-- **AI-Powered Categorization**: Automatic department assignment based on complaint content
-- **Priority Detection**: AI analyzes urgency and assigns priority levels (Red/Yellow/Green)
-- **Real-time Tracking**: Monitor complaint status from submission to resolution
-- **Duplicate Detection**: Identifies similar complaints to avoid duplicates
-- **Multi-language Support**: Detects and translates complaints from various languages
-- **Reward System**: Earn points for submitting complaints and community engagement
-- **Upvote System**: Support complaints from other citizens
+### For Citizens
+- **Complaint submission** — Photos, location, pincode, and detailed descriptions
+- **AI categorization** — Automatic department assignment from complaint content
+- **Priority detection** — Red / Yellow / Green based on urgency
+- **Status tracking** — From submission to resolution
+- **Duplicate detection** — Similar complaints flagged to avoid duplicates
+- **Multi-language support** — Detection and translation for multiple languages
+- **Rewards & upvotes** — Points for submissions and upvoting others’ complaints
 
-### 👨‍💼 For Administrators
-- **Comprehensive Dashboard**: View all complaints with advanced filtering
-- **Analytics & Insights**: Track performance metrics and trends
-- **Department-wise Management**: Filter and manage complaints by department
-- **Status Updates**: Update complaint status and add admin notes
-- **User Management**: Manage citizen accounts and permissions
-- **Bulk Operations**: Efficiently handle multiple complaints
+### For Administrators
+- **Dashboard** — All complaints with filters and search
+- **Analytics** — Metrics and trends
+- **Department-wise management** — Filter and assign by department
+- **Status updates** — Update status and add admin notes
+- **User management** — Citizen accounts and permissions
+- **Bulk operations** — Handle multiple complaints at once
 
-### 🤖 AI Features
-- **Smart Categorization**: Automatically routes complaints to appropriate departments
-- **Priority Scoring**: Analyzes text content for urgency indicators
-- **Duplicate Detection**: Prevents duplicate complaints using similarity algorithms
-- **Language Processing**: Supports multiple Indian languages
-- **Intelligent Suggestions**: Provides automated responses and next steps
+### AI & Security
+- **Smart categorization** — Routes to the right department
+- **Priority scoring** — Urgency from text
+- **Duplicate detection** — Similarity-based checks
+- **JWT auth** — Secure login and role-based access
+- **Rate limiting & validation** — Abuse prevention and input validation
 
-### 🔒 Security & Performance
-- **JWT Authentication**: Secure user authentication and authorization
-- **Role-Based Access Control**: Different access levels for citizens and admins
-- **Rate Limiting**: Prevents abuse and ensures fair usage
-- **Input Validation**: Comprehensive validation for all user inputs
-- **XSS & SQL Injection Protection**: Built-in security measures
+---
 
 ## Technology Stack
 
-### Frontend
-- **React.js** - Modern UI framework
-- **Tailwind CSS** - Utility-first CSS framework
-- **React Router** - Client-side routing
-- **Axios** - HTTP client for API communication
-- **Lucide React** - Modern icon library
+| Layer        | Technologies |
+|-------------|--------------|
+| **Frontend** | React 18, React Router 6, MUI, Tailwind CSS, Chart.js, Recharts, Axios |
+| **Backend**  | Node.js, Express, Mongoose |
+| **Database** | MongoDB |
+| **Auth**     | JWT, bcryptjs |
+| **AI/NLP**   | Natural, Franc, Compromise, Groq (chatbot) |
+| **Security** | Helmet, express-rate-limit, express-validator |
 
-### Backend
-- **Node.js** - JavaScript runtime
-- **Express.js** - Web application framework
-- **MongoDB** - NoSQL database with Mongoose ODM
-- **JWT** - Authentication tokens
-- **Multer** - File upload handling
-- **Helmet** - Security middleware
+---
 
-### AI/NLP Processing
-- **Natural** - Natural language processing
-- **Franc** - Language detection
-- **Compromise** - Text analysis
-- **Translate Tools** - Multi-language support
+## Project Structure
 
-## Quick Start
+```
+AI_Grievance_portal/
+├── backend/
+│   ├── middleware/       # Auth, validation
+│   ├── models/           # Mongoose schemas (User, Complaint, Department)
+│   ├── routes/           # auth, complaints, users, chatbot
+│   ├── scripts/          # seedDb.js
+│   ├── uploads/          # Complaint images (gitignored)
+│   ├── server.js
+│   ├── .env.example
+│   └── MONGODB_SETUP.md
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── components/   # UI, ChatbotWidget, etc.
+│   │   ├── pages/        # Dashboard, Admin, etc.
+│   │   ├── config/
+│   │   └── ...
+│   ├── .env.example
+│   └── package.json
+└── README.md
+```
 
-### Prerequisites
-- Node.js (v16 or higher)
-- MongoDB (local or cloud instance)
-- npm or yarn
+---
 
-### Installation
+## Prerequisites
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd AI_Grievance_Portal
-   ```
+- **Node.js** — v16 or higher (LTS recommended)
+- **MongoDB** — Local (`mongod`) or [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
+- **npm** or **yarn**
 
-2. **Install Backend Dependencies**
-   ```bash
-   cd backend
-   npm install
-   ```
+---
 
-3. **Install Frontend Dependencies**
-   ```bash
-   cd ../frontend
-   npm install
-   ```
+## Installation & Setup
 
-4. **Environment Setup**
-   
-   Backend (create `.env` file in `backend/`):
-   ```env
-   PORT=5000
-   NODE_ENV=development
-   MONGODB_URI=mongodb://localhost:27017/ai-grievance-portal
-   JWT_SECRET=your-super-secret-jwt-key
-   JWT_EXPIRE=7d
-   ```
-   
-   Frontend (create `.env` file in `frontend/`):
-   ```env
-   REACT_APP_API_URL=http://localhost:5000/api
-   ```
+### 1. Clone and install dependencies
 
-5. **Start MongoDB**
-   ```bash
-   # For local MongoDB
-   mongod
-   
-   # Or use MongoDB Atlas (cloud)
-   # Update MONGODB_URI in backend/.env
-   ```
+```bash
+git clone <repository-url>
+cd AI_Grievance_portal
 
-6. **Run the Application**
-   
-   Start Backend:
-   ```bash
-   cd backend
-   npm run dev
-   ```
-   
-   Start Frontend:
-   ```bash
-   cd frontend
-   npm start
-   ```
+# Backend
+cd backend
+npm install
 
-7. **Access the Application**
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:5000/api
-   - API Health Check: http://localhost:5000/api/health
+# Frontend
+cd ../frontend
+npm install
+```
 
-## API Endpoints
+### 2. Environment files
 
-### Authentication (per prompt)
-- `POST /api/register` - User registration
-- `POST /api/login` - User login
-- `GET /api/user/profile` - Get user profile (JWT required)
-- `PUT /api/user/profile` - Update profile
-- `PUT /api/change-password` - Change password
+Copy the example env files and fill in values (see [Environment Variables](#environment-variables)):
+
+```bash
+# From project root
+cp backend/.env.example backend/.env
+cp frontend/.env.example frontend/.env
+```
+
+### 3. MongoDB
+
+- **Local:** Start MongoDB (e.g. `mongod`).
+- **Atlas:** Create a cluster and set `MONGODB_URI` in `backend/.env`.
+
+See **[backend/MONGODB_SETUP.md](backend/MONGODB_SETUP.md)** for database name, collections, and seeding.
+
+### 4. Seed database (recommended)
+
+From the **backend** folder:
+
+```bash
+cd backend
+npm run seed
+```
+
+This creates the `ai-grievance-portal` database, collections, indexes, and seeds the 6 departments.
+
+---
+
+## Environment Variables
+
+### Backend (`backend/.env`)
+
+| Variable | Description | Default / Example |
+|----------|-------------|-------------------|
+| `PORT` | API server port | `5000` |
+| `NODE_ENV` | `development` or `production` | `development` |
+| `MONGODB_URI` | MongoDB connection string | `mongodb://localhost:27017/ai-grievance-portal` |
+| `JWT_SECRET` | Secret for JWT signing | **Required** — use a strong secret in production |
+| `JWT_EXPIRE` | JWT expiry | `7d` |
+| `EMAIL_HOST` | SMTP host (notifications) | e.g. `smtp.gmail.com` |
+| `EMAIL_PORT` | SMTP port | `587` |
+| `EMAIL_USER` | SMTP user | Your email |
+| `EMAIL_PASS` | SMTP password / app password | Your app password |
+| `MAX_FILE_SIZE` | Max upload size (bytes) | `5242880` (5MB) |
+| `UPLOAD_PATH` | Dir for uploaded images | `./uploads` |
+| `RATE_LIMIT_WINDOW_MS` | Rate limit window (ms) | `900000` (15 min) |
+| `RATE_LIMIT_MAX_REQUESTS` | Max requests per window | `100` |
+| `ENABLE_AI_PROCESSING` | Enable AI categorization/priority | `true` |
+| `SIMILARITY_THRESHOLD` | Duplicate similarity (0–1) | `0.8` |
+| `GROQ_API_KEY` | Groq API key for chatbot | Required for chatbot |
+
+### Frontend (`frontend/.env`)
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `REACT_APP_API_URL` | Backend API base URL | `http://localhost:5000/api` |
+
+---
+
+## Running the Application
+
+**Terminal 1 — Backend:**
+
+```bash
+cd backend
+npm run dev
+```
+
+**Terminal 2 — Frontend:**
+
+```bash
+cd frontend
+npm start
+```
+
+- **Frontend:** [http://localhost:3000](http://localhost:3000)
+- **Backend API:** [http://localhost:5000/api](http://localhost:5000/api)
+- **Health check:** [http://localhost:5000/api/health](http://localhost:5000/api/health)
+
+---
+
+## API Reference
+
+### Authentication
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/register` | Register user |
+| POST | `/api/login` | Login |
+| GET | `/api/user/profile` | Get profile (JWT) |
+| PUT | `/api/user/profile` | Update profile |
+| PUT | `/api/change-password` | Change password |
 
 ### Complaints
-- `POST /api/complaints/submit` - Submit new complaint
-- `GET /api/complaints` - Get all complaints (Admin only)
-- `GET /api/complaints/user/:userId` - Get user complaints
-- `GET /api/complaints/status/:complaintId` - Track complaint
-- `PUT /api/complaints/update-status` - Update status (Admin only)
-- `POST /api/complaints/upvote` - Upvote complaint
-- `GET /api/complaints/analytics` - Get analytics (Admin only)
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/complaints/submit` | Submit complaint |
+| GET | `/api/complaints` | List all (Admin) |
+| GET | `/api/complaints/user/:userId` | User’s complaints |
+| GET | `/api/complaints/status/:complaintId` | Track complaint |
+| PUT | `/api/complaints/update-status` | Update status (Admin) |
+| POST | `/api/complaints/upvote` | Upvote complaint |
+| GET | `/api/complaints/analytics` | Analytics (Admin) |
 
 ### Users
-- `GET /api/users` - Get all users (Admin only)
-- `GET /api/users/leaderboard/top` - Get top users
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/users` | List users (Admin) |
+| GET | `/api/users/leaderboard/top` | Top users |
 
 ### Chatbot
-- `POST /api/chatbot` - Chat with AI assistant
-- `GET /api/chatbot/info` - Get chatbot info
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/chatbot` | Chat with AI assistant |
+| GET | `/api/chatbot/info` | Chatbot info |
 
-## Database Schema
+---
 
-### Users Collection
-```javascript
-{
-  name: String,
-  email: String (unique),
-  phone: String,
-  password: String (hashed),
-  role: String (citizen/admin),
-  reward_points: Number,
-  is_active: Boolean,
-  created_at: Date,
-  last_login: Date
-}
-```
+## Database
 
-### Complaints Collection
-```javascript
-{
-  complaint_id: String (unique),
-  user_id: ObjectId,
-  complaint_text: String,
-  translated_text: String,
-  location: String,
-  pincode: String,
-  uploaded_image_url: String,
-  department: String,
-  priority_level: String (Red/Yellow/Green),
-  status: String (Pending/In Progress/Resolved),
-  upvotes: Number,
-  is_duplicate: Boolean,
-  ai_suggestions: String,
-  admin_notes: String,
-  created_at: Date,
-  updated_at: Date,
-  resolved_date: Date
-}
-```
+- **Database:** `ai-grievance-portal`
+- **Collections:** `users`, `complaints`, `departments`
 
-### Departments Collection
-```javascript
-{
-  department_name: String (unique),
-  department_email: String,
-  department_head: String,
-  contact_phone: String,
-  is_active: Boolean
-}
-```
+Schema details and seeding are in **[backend/MONGODB_SETUP.md](backend/MONGODB_SETUP.md)**.
+
+---
 
 ## Deployment
 
-### Backend Deployment (Hostinger/Node.js Hosting)
-1. Install dependencies: `npm install --production`
-2. Set environment variables
-3. Start server: `npm start`
+### Backend
+1. Set production env vars (especially `NODE_ENV`, `MONGODB_URI`, `JWT_SECRET`, `CORS_ORIGIN`).
+2. `npm install --production`
+3. `npm start`
 
-### Frontend Deployment
-1. Build the app: `npm run build`
-2. Deploy the `build` folder to your hosting service
+### Frontend
+1. Set `REACT_APP_API_URL` to your production API URL.
+2. `npm run build`
+3. Deploy the `build` folder (e.g. static hosting, Vercel, Netlify).
 
-### Environment Variables for Production
-```env
-NODE_ENV=production
-PORT=5000
-MONGODB_URI=your-production-mongodb-uri
-JWT_SECRET=your-production-jwt-secret
-```
+### Deploy to production
+
+For a full step-by-step (MongoDB Atlas + Render + Vercel), see **[DEPLOYMENT.md](DEPLOYMENT.md)**.
+
+- **Backend:** Render (free tier), use repo root `render.yaml` or create Web Service with root dir `backend`.
+- **Frontend:** Vercel — set root to `frontend`, set `REACT_APP_API_URL` to your Render API URL.
+- **Database:** MongoDB Atlas free cluster; run `npm run seed` once (from backend with `MONGODB_URI` pointing to Atlas).
+
+---
 
 ## Contributing
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature-name`
-3. Commit changes: `git commit -am 'Add feature'`
-4. Push to branch: `git push origin feature-name`
-5. Submit a pull request
+1. Fork the repo.
+2. Create a branch: `git checkout -b feature/your-feature`.
+3. Commit: `git commit -m 'Add your feature'`.
+4. Push: `git push origin feature/your-feature`.
+5. Open a Pull Request.
+
+---
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Support
-
-For support and queries:
-- Email: support@aigrievance.com
-- Phone: 1800-123-4567
-- Documentation: Check the built-in chatbot assistant
-
-## Acknowledgments
-
-- Built with React.js and Node.js
-- Powered by MongoDB
-- AI processing with Natural Language Processing libraries
-- Icons by Lucide React
+MIT License — see the [LICENSE](LICENSE) file for details.
