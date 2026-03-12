@@ -13,9 +13,6 @@ import {
 } from 'lucide-react';
 import { chatbotAPI } from '../services/api';
 
-// Portal display name (AI behavior is defined in backend Groq system prompt)
-const PORTAL_NAME = 'AI Grievance Portal';
-
 const ChatbotWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
