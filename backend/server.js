@@ -17,11 +17,13 @@ app.use(helmet());
 const allowedOrigins = process.env.CORS_ORIGIN
   ? process.env.CORS_ORIGIN.split(',').map(o => o.trim()).filter(Boolean)
   : (process.env.NODE_ENV === 'production' ? [] : ['http://localhost:3000']);
+const allowVercel = process.env.NODE_ENV === 'production';
 app.use(cors({
   origin: (origin, cb) => {
-    if (!origin) return cb(null, true); // same-origin or non-browser
-    if (allowedOrigins.length === 0) return cb(null, true); // allow all when not set (e.g. dev)
+    if (!origin) return cb(null, true);
+    if (allowedOrigins.length === 0) return cb(null, true);
     if (allowedOrigins.includes(origin)) return cb(null, true);
+    if (allowVercel && (origin.endsWith('.vercel.app') || origin.includes('vercel.app'))) return cb(null, true);
     cb(new Error('Not allowed by CORS'));
   },
   credentials: true

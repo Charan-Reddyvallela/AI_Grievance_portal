@@ -102,8 +102,9 @@ const authReducer = (state, action) => {
 // API base URL
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
-// Set up axios defaults
+// Set up axios defaults (60s timeout for production - Render cold start)
 axios.defaults.baseURL = API_BASE_URL;
+axios.defaults.timeout = 60000;
 
 // Auth Provider Component
 export const AuthProvider = ({ children }) => {
@@ -129,7 +130,7 @@ export const AuthProvider = ({ children }) => {
     setAuthToken(token);
     dispatch({ type: AUTH_ACTIONS.LOAD_USER_START });
 
-    const timeoutMs = 10000;
+    const timeoutMs = 60000;
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 

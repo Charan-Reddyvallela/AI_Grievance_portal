@@ -3,10 +3,10 @@ import axios from 'axios';
 // API base URL
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
-// Create axios instance
+// Create axios instance (60s timeout for production - Render free tier cold start can take 50s)
 const api = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 10000,
+  timeout: 60000,
   headers: {
     'Content-Type': 'application/json',
   },
