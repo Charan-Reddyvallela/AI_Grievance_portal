@@ -75,7 +75,10 @@ router.post('/register', [
     if (error.message === 'JWT_SECRET not configured') {
       return res.status(503).json({ error: 'Server misconfiguration. Please set JWT_SECRET on Render.' });
     }
-    res.status(500).json({ error: 'Registration failed' });
+    if (error.name === 'MongoServerError' || error.name === 'MongoNetworkError' || error.message?.includes('Mongo')) {
+      return res.status(503).json({ error: 'Database error. Check MONGODB_URI on Render and MongoDB Atlas.', hint: error.message });
+    }
+    res.status(500).json({ error: 'Registration failed', hint: process.env.NODE_ENV === 'production' ? error.message : undefined });
   }
 });
 
@@ -136,7 +139,10 @@ router.post('/login', [
     if (error.message === 'JWT_SECRET not configured') {
       return res.status(503).json({ error: 'Server misconfiguration. Please set JWT_SECRET on Render.' });
     }
-    res.status(500).json({ error: 'Login failed' });
+    if (error.name === 'MongoServerError' || error.name === 'MongoNetworkError' || error.message?.includes('Mongo')) {
+      return res.status(503).json({ error: 'Database error. Check MONGODB_URI on Render and MongoDB Atlas.', hint: error.message });
+    }
+    res.status(500).json({ error: 'Login failed', hint: process.env.NODE_ENV === 'production' ? error.message : undefined });
   }
 });
 
