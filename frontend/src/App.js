@@ -14,6 +14,7 @@ import AuthPage from './pages/AuthPage';
 import CitizenDashboard from './pages/CitizenDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import ComplaintTracking from './pages/ComplaintTracking';
+import ComplaintsPage from './pages/ComplaintsPage';
 import ProfilePage from './pages/ProfilePage';
 import NotFoundPage from './pages/NotFoundPage';
 import Logout from './pages/Logout';
@@ -71,7 +72,7 @@ function LayoutController() {
   const { pathname } = useLocation();
   const [, dispatch] = useMaterialUIController();
   useEffect(() => {
-    const isDashboard = /^\/(dashboard|admin|profile|track)(\/|$)/.test(pathname);
+    const isDashboard = /^\/(dashboard|admin|profile|track|complaints)(\/|$)/.test(pathname);
     setLayout(dispatch, isDashboard ? 'dashboard' : 'page');
   }, [pathname, dispatch]);
   return null;
@@ -121,6 +122,7 @@ function AppRoutes() {
         <Route path="/admin" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} />
         <Route path="/track" element={<ComplaintTracking />} />
         <Route path="/track/:complaintId" element={<ComplaintTracking />} />
+        <Route path="/complaints" element={<ProtectedRoute><ComplaintsPage /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
         <Route path="/logout" element={<Logout />} />
         <Route path="*" element={<NotFoundPage />} />

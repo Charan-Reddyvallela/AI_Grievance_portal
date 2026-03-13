@@ -3,10 +3,11 @@ import Search from "@mui/icons-material/Search";
 import Person from "@mui/icons-material/Person";
 import Logout from "@mui/icons-material/Logout";
 import AdminPanelSettings from "@mui/icons-material/AdminPanelSettings";
+import Assignment from "@mui/icons-material/Assignment";
 
 /**
  * Sidenav routes for dashboard layout.
- * Top: Dashboard, Track Complaint, Profile, Admin (if admin).
+ * Top: Dashboard, Track Complaint, Complaints, Profile, Admin (if admin).
  * Sign out is pinned to the bottom of the sidebar (position: "bottom").
  */
 export function getSidenavRoutes(isAdmin) {
@@ -14,6 +15,7 @@ export function getSidenavRoutes(isAdmin) {
   const top = [
     { type: "collapse", name: "Dashboard", key: "dashboard", icon: <Dashboard sx={iconSx} />, route: "/dashboard" },
     { type: "collapse", name: "Track Complaint", key: "track", icon: <Search sx={iconSx} />, route: "/track" },
+    { type: "collapse", name: "Complaints", key: "complaints", icon: <Assignment sx={iconSx} />, route: "/complaints" },
     { type: "collapse", name: "Profile", key: "profile", icon: <Person sx={iconSx} />, route: "/profile" },
   ];
   if (isAdmin) {
