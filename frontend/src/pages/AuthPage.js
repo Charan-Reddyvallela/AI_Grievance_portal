@@ -13,7 +13,6 @@ import MDTypography from 'components/MDTypography';
 import MDInput from 'components/MDInput';
 import MDButton from 'components/MDButton';
 import LoadingSpinner from '../components/LoadingSpinner';
-import { PORTAL_CONTACT } from '../data/portalContent';
 
 const AUTH_TRANSITION_MS = 500;
 
@@ -173,6 +172,10 @@ export default function AuthPage() {
           boxShadow: '0 20px 60px rgba(0,0,0,0.12), 0 8px 24px rgba(0,0,0,0.08)',
           border: '1px solid rgba(255,255,255,0.9)',
           overflow: 'hidden',
+          maxHeight: 'calc(100vh - 80px)',
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
         }}
       >
         <MDBox
@@ -182,8 +185,8 @@ export default function AuthPage() {
           coloredShadow="info"
           mx={2}
           mt={-3}
-          p={2}
-          mb={1}
+          p={1.5}
+          mb={0.5}
           textAlign="center"
           sx={{
             border: '1px solid rgba(255,255,255,0.4)',
@@ -202,9 +205,9 @@ export default function AuthPage() {
           </MDTypography>
         </MDBox>
 
-        <MDBox pt={2} pb={3} px={3}>
+        <MDBox pt={1.5} pb={2} px={{ xs: 2, sm: 3 }} sx={{ overflow: 'auto', flex: '1 1 auto' }}>
           {/* Toggle: Sign In / Sign Up */}
-          <MDBox display="flex" justifyContent="center" mb={3}>
+          <MDBox display="flex" justifyContent="center" mb={2}>
             <MDBox
               sx={{
                 display: 'inline-flex',
@@ -248,13 +251,13 @@ export default function AuthPage() {
             </MDBox>
           </MDBox>
 
-          {/* Sliding form container - compact for Sign in, taller for Sign up */}
+          {/* Sliding form container - compact for Sign in, smaller for Sign up */}
           <MDBox
             sx={{
               position: 'relative',
               overflow: 'hidden',
               width: '100%',
-              minHeight: isSignUp ? 520 : 340,
+              minHeight: isSignUp ? { xs: 340, sm: 400 } : { xs: 280, sm: 320 },
               transition: 'min-height 0.4s ease',
             }}
           >
@@ -440,12 +443,6 @@ export default function AuthPage() {
             </MDBox>
           </MDBox>
 
-          {/* Portal contact info - aligned with form content */}
-          <MDBox mt={2} pt={2} borderTop="1px solid" borderColor="divider" sx={{ textAlign: 'left' }}>
-            <MDTypography variant="body2" display="block" sx={{ color: 'text.secondary', fontWeight: 500 }}>
-              {PORTAL_CONTACT.email} · {PORTAL_CONTACT.phone}
-            </MDTypography>
-          </MDBox>
         </MDBox>
       </Card>
     </BasicLayout>

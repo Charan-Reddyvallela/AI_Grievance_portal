@@ -14,7 +14,8 @@ import {
   Filter,
   ClipboardList,
   Hourglass,
-  TrendingUp
+  TrendingUp,
+  MapPin
 } from 'lucide-react';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { formatDate, getPriorityColor, getStatusColor, timeAgo, truncateText } from '../utils/helpers';
@@ -100,12 +101,6 @@ const CitizenDashboard = () => {
   }, []);
 
   // Auto-refresh every 30 seconds
-  useEffect(() => {
-    if (!user?.id) return;
-    const intervalId = setInterval(fetchComplaints, 30000);
-    return () => clearInterval(intervalId);
-  }, [user?.id, fetchComplaints]);
-
   const getComplaintStats = () => {
     const total = complaints.length;
     const pending = complaints.filter(c => c.status === 'Pending').length;
@@ -698,6 +693,13 @@ const CitizenDashboard = () => {
                   color="dark"
                   onClick={() => setShowSubmitForm(false)}
                   iconOnly
+                  sx={{
+                    minWidth: 48,
+                    minHeight: 48,
+                    fontSize: '1.75rem',
+                    fontWeight: 300,
+                    '&:hover': { backgroundColor: 'action.hover' },
+                  }}
                 >
                   ×
                 </MDButton>
@@ -728,8 +730,50 @@ const ComplaintSubmissionForm = ({ onSuccess }) => {
     image: null
   });
   const [loading, setLoading] = useState(false);
+  const [gpsLoading, setGpsLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+
+  const handleGetLocation = () => {
+    if (!navigator.geolocation) {
+      setErrors(prev => ({ ...prev, location: 'Geolocation is not supported by your browser.' }));
+      return;
+    }
+    setGpsLoading(true);
+    setErrors(prev => ({ ...prev, location: '', pincode: '' }));
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        try {
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`,
+            { headers: { 'Accept-Language': 'en' } }
+          );
+          const data = await res.json();
+          if (data && data.address) {
+            const a = data.address;
+            const parts = [a.road, a.suburb, a.village, a.town, a.city, a.state_district, a.state].filter(Boolean);
+            const locationStr = parts.length ? parts.join(', ') : (data.display_name || '');
+            const pincodeStr = (a.postcode && String(a.postcode).replace(/\s/g, '').slice(0, 6)) || '';
+            setFormData(prev => ({
+              ...prev,
+              location: locationStr || prev.location,
+              pincode: pincodeStr || prev.pincode,
+            }));
+          }
+        } catch (err) {
+          setErrors(prev => ({ ...prev, location: 'Could not fetch address from coordinates.' }));
+        } finally {
+          setGpsLoading(false);
+        }
+      },
+      (err) => {
+        setGpsLoading(false);
+        const msg = err.code === 1 ? 'Location permission denied.' : err.code === 2 ? 'Location unavailable.' : 'Could not get your location.';
+        setErrors(prev => ({ ...prev, location: msg }));
+      }
+    );
+  };
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -879,6 +923,20 @@ const ComplaintSubmissionForm = ({ onSuccess }) => {
           helperText={errors.pincode}
           placeholder="Enter 6-digit pincode"
         />
+      </MDBox>
+
+      <MDBox mb={3} display="flex" alignItems="center" gap={1}>
+        <MDButton
+          type="button"
+          variant="outlined"
+          color="info"
+          size="small"
+          onClick={handleGetLocation}
+          disabled={gpsLoading}
+          startIcon={<MapPin size={18} />}
+        >
+          {gpsLoading ? 'Getting location...' : 'Use my location (GPS)'}
+        </MDButton>
       </MDBox>
 
       <MDBox mb={3}>

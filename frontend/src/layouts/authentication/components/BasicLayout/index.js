@@ -38,14 +38,41 @@ export default function BasicLayout({ image, children }) {
               },
         }}
       />
-      <MDBox px={1} width="100%" minHeight="100vh" py={4} mx="auto" sx={{ overflowY: "auto" }}>
-        <Grid container spacing={1} justifyContent="center" alignItems="center" sx={{ minHeight: "calc(100vh - 64px)" }}>
-          <Grid item xs={11} sm={9} md={5} lg={4} xl={3}>
+      <MDBox
+        px={1}
+        width="100%"
+        height="100vh"
+        maxHeight="100vh"
+        py={{ xs: 2, sm: 3 }}
+        mx="auto"
+        sx={{
+          overflow: "hidden",
+          display: "flex",
+          flexDirection: "column",
+          border: "none",
+          boxShadow: "none",
+          outline: "none",
+        }}
+      >
+        <Grid
+          container
+          spacing={1}
+          justifyContent="center"
+          alignItems="center"
+          sx={{
+            flex: "1 1 auto",
+            minHeight: 0,
+            py: { xs: 1, sm: 0 },
+            border: "none",
+            boxShadow: "none",
+          }}
+        >
+          <Grid item xs={11} sm={9} md={5} lg={4} xl={3} sx={{ minHeight: 0, display: "flex", justifyContent: "center", alignItems: "center" }}>
             {children}
           </Grid>
         </Grid>
+        <AuthFooter light />
       </MDBox>
-      <AuthFooter light />
     </PageLayout>
   );
 }
